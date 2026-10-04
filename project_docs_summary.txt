@@ -1,0 +1,572 @@
+==================================================
+PPTX: Web_User_Behaviour_Analysis_Final_Presentation.pptx
+==================================================
+
+--- SLIDE 1 ---
+FINAL YEAR PROJECT A Project Presentation on WEB USER BEHAVIOUR ANALYSIS Using Machine Learning Presented By Abhineet Kr Sinha (2302220100009) Viswajeet Kr Singh (2302220100210) Sanjeet Kumar (2302220100163) Amrit Raj (2302220100032) Semester - VII Under the Supervision of Mr. Manik Chandra Panday ITS Engineering College, Greater Noida 201306
+
+--- SLIDE 2 ---
+Outline • Alignment with UN Sustainable Development Goals (SDGs) • Introduction & Motivation • Literature Survey • Research Gap • Project Objectives • Problem Statement • Proposed Work / Methodology • System Design • Implementation Details • Activity Planning • Expected Results & Evaluation • Conclusion & Future Work • Type of Project & References • Appendix / Thank You
+
+--- SLIDE 3 ---
+Alignment with UN Sustainable Development Goals (SDGs) SDG 9 – Industry, Innovation & Infrastructure Goal: Build resilient infrastructure, promote inclusive and sustainable industrialization, and foster innovation. Project Relevance & Contribution • Applies machine learning and data analytics to understand website user behaviour. • Builds a digital analytics platform integrating data collection, processing and visualization. • Supports data-driven decisions instead of relying only on basic traffic statistics. • Promotes open-source, scalable technologies suitable for academic and small-organization use. Impact Highlights Digital innovation • Intelligent analytics • Better website infrastructure • Data-driven decisions
+
+--- SLIDE 4 ---
+Alignment with UN Sustainable Development Goals (SDGs) SDG 8 – Decent Work & Economic Growth Goal: Promote sustained, inclusive and sustainable economic growth, productivity and decent work. Project Relevance & Contribution • Helps organizations understand engagement and browsing patterns to improve website performance. • Supports efficient use of digital resources through evidence-based website decisions. • Improves productivity by identifying popular pages, navigation trends and less engaging areas. • Builds practical skills in web development, data analytics, machine learning and visualization. Impact Highlights Higher productivity • Better resource use • Data-driven digital services • Future-ready skills
+
+--- SLIDE 5 ---
+Alignment with UN Sustainable Development Goals (SDGs) Summary {5C22544A-7EE6-4342-B048-85BDC9FD1C3A} Focus Area SDG Project Contribution Innovation & Research SDG 9 Uses machine learning and analytics to discover user behaviour patterns. Digital Infrastructure SDG 9 Integrates web tracking, database processing and interactive visualization. Productivity & Growth SDG 8 Supports better website decisions and improved digital service performance. Skill Development SDG 8 Combines web development, Python, data analytics and ML skills. Overall alignment: digital innovation + productivity + practical technology adoption
+
+--- SLIDE 6 ---
+Introduction Why Web User Behaviour Analysis? • Websites generate valuable interaction data through page visits, clicks, searches, navigation paths and session duration. • Traditional analytics often focus on basic measures such as visitor count, page views and session duration. • These measures alone may not reveal browsing patterns, user preferences or how visitors move across a website. • Data analytics and machine learning can convert raw interaction data into meaningful behavioural insights. • The proposed system aims to help website administrators improve usability, engagement and performance.
+
+--- SLIDE 7 ---
+Introduction & Motivation Motivation • Website owners need more than simple visitor statistics to understand user interaction. • Identifying browsing patterns and popular pages can guide website improvement. • User engagement analysis can support better customer satisfaction and navigation decisions. • Many analytics solutions are expensive or offer limited customization for small organizations and educational projects. • The proposed platform focuses on a simple, intelligent and cost-effective analytics workflow using open-source technologies. Collect → Process → Analyze → Visualize → Decide
+
+--- SLIDE 8 ---
+Literature Survey Key Research Areas {5C22544A-7EE6-4342-B048-85BDC9FD1C3A} Study / Area Key Insight Limitation / Gap Srivastava et al. (2000) Web Usage Mining discovers access patterns and navigation paths from web data. Foundational work; not focused on modern interactive dashboards. Mobasher et al. (2000) Web usage mining can support personalized user experiences. Higher complexity and limited general-purpose monitoring. Kosala & Blockeel (2000) Classifies Web Content, Structure and Usage Mining approaches. Primarily a conceptual survey. Pedregosa et al. (2011) Scikit-learn supports preprocessing, clustering and behavioural modelling. Library-level support; no dedicated web tracking interface.
+
+--- SLIDE 9 ---
+Literature Survey Technology & Research Findings • Web Usage Mining and Machine Learning are widely used to discover browsing patterns and group users with similar behaviour. • Visualization tools such as Matplotlib, Seaborn and Plotly make analytical results easier to interpret. • Lightweight open-source stacks such as Flask and Streamlit can help small teams build analytical applications without commercial licensing overhead. • An integrated workflow combining data collection, preprocessing, machine learning and interactive visualization is less common. • The proposed project focuses on bringing these components together in one cost-effective platform. Key direction: integrated web analytics rather than isolated statistics or models
+
+--- SLIDE 10 ---
+Research Gap Identified Research / Application Gap 1 Fragmented analytics Many existing systems emphasize traffic statistics or predefined reports. 2 Limited integration Data collection, preprocessing, ML and visualization are often separate components. 3 Limited customization Small organizations may face cost or complexity barriers with advanced analytics suites. 4 Actionable insight gap Basic metrics do not fully explain navigation patterns, popular pages or user engagement. Proposed response: a single platform that connects tracking → processing → ML → dashboard → insights.
+
+--- SLIDE 11 ---
+Project Objectives Core Objectives • Study existing web analytics techniques and user behaviour analysis methods through a literature survey. • Develop a web-based application that collects, processes and analyses website user activity. • Use data analytics and machine learning to identify user behaviour patterns. • Design an interactive dashboard to visualize activity and support website administrators. • Evaluate the proposed analytical approach using appropriate performance measures such as accuracy, precision, recall, F1-score and/or MSE. Objective focus: practical analytics + machine learning + visualization
+
+--- SLIDE 12 ---
+Problem Statement Problem Statement Organizations collect large volumes of website interaction data, but basic analytics often provide only surface-level statistics. EXISTING CHALLENGES • Basic metrics do not fully explain user journeys. • Difficult to identify navigation patterns and engagement. • Advanced solutions may be costly or complex. • Limited customization for small organizations. PROPOSED RESPONSE • Collect interaction data. • Store and preprocess activity. • Discover behaviour patterns using ML. • Present insights through an interactive dashboard. Need: a simple, intelligent and cost-effective platform for understanding visitor behaviour and improving website performance.
+
+--- SLIDE 13 ---
+Proposed Work / Methodology Proposed Work 1. Data Collection Record page visits, clicks, navigation and session information. 2. Storage Store user activity in MySQL/MongoDB for further processing. 3. Preprocessing Clean and prepare data using Pandas and NumPy. 4. Machine Learning Apply Scikit-learn techniques to identify behaviour patterns. 5. Visualization Build interactive dashboards using Streamlit, Matplotlib, Seaborn and Plotly. 6. Insights Generate reports to support website usability and performance decisions.
+
+--- SLIDE 14 ---
+Proposed Architecture / Methodology Flowchart of the Proposed System User Interaction Page visits • clicks • navigation • sessions Data Collection Capture activity from the website Database MySQL / MongoDB storage Preprocessing Pandas + NumPy cleaning and preparation Machine Learning Scikit-learn behaviour analysis / clustering Dashboard Streamlit + Plotly + Matplotlib + Seaborn Insights Reports, popular pages, engagement & performance
+
+--- SLIDE 15 ---
+System Design High-Level System Components {5C22544A-7EE6-4342-B048-85BDC9FD1C3A} Layer Technologies Role Frontend HTML • CSS • JavaScript • Bootstrap Responsive user interface Backend Python Flask Request handling and application logic Database MySQL / MongoDB User activity and session storage Analytics Pandas • NumPy • Scikit-learn Preprocessing and behaviour analysis Dashboard Streamlit • Plotly • Matplotlib • Seaborn Interactive visualization and reporting Design principle: modular components connected through a clear data-processing workflow.
+
+--- SLIDE 16 ---
+System Design Data Flow & Analytical Pipeline Website User interactions Tracking Events + sessions Database Stored activity Processing Clean + transform ML Behaviour patterns Dashboard Charts + insights Key Data Elements Page visits • Click events • Navigation paths • Session duration • User engagement • Frequently visited pages Outputs: behavioural patterns, website usage insights and performance-oriented reports.
+
+--- SLIDE 17 ---
+Implementation Details Technology Stack {5C22544A-7EE6-4342-B048-85BDC9FD1C3A} Component Technology / Tool Purpose Frontend HTML, CSS, JavaScript, Bootstrap Responsive web interface Backend Python Flask Application and server-side logic Database MySQL / MongoDB Activity and session data storage Data Processing Pandas, NumPy Cleaning, transformation and preparation Machine Learning Scikit-learn Behaviour pattern analysis / clustering Dashboard Streamlit Interactive analytics interface Visualization Matplotlib, Seaborn, Plotly Charts and graphical analysis
+
+--- SLIDE 18 ---
+Methodology / Planning of Work Phase-Wise Development Plan {5C22544A-7EE6-4342-B048-85BDC9FD1C3A} Phase Activity Work Phase 1 Requirement Analysis Study existing analytics systems, define requirements and behaviour metrics. Phase 2 System Design Design architecture, database schema and user interface. Phase 3 Development Build frontend with HTML/CSS/JS/Bootstrap and backend with Flask. Phase 4 Data + ML Store activity, preprocess with Pandas/NumPy and apply Scikit-learn. Phase 5 Dashboard + Testing Develop Streamlit dashboard, visualizations and perform testing. Phase 6 Deployment Deploy on Render or Heroku and prepare final documentation.
+
+--- SLIDE 19 ---
+Activity Chart Semester-Wise Activity Plan {5C22544A-7EE6-4342-B048-85BDC9FD1C3A} Activity Semester VII Semester VIII Project Topic Selection ✓ Literature Survey ✓ Requirement Analysis ✓ System Design ✓ Database Design ✓ Frontend Development ✓ ✓ Backend Development ✓ ✓ Database Integration ✓ ✓ Data Collection & Preprocessing ✓ Machine Learning Model Development ✓ Dashboard Development ✓ Data Visualization ✓ Testing & Bug Fixing ✓ Deployment ✓ Documentation & Final Report ✓ Project Presentation & Viva ✓
+
+--- SLIDE 20 ---
+Expected Results & Evaluation Expected Outcomes • Clearer understanding of website browsing behaviour and navigation patterns. • Identification of frequently visited and less engaging pages. • Interactive visualizations that make user activity easier to interpret. • Machine-learning-based behaviour pattern discovery to support data-driven decisions. • Cost-effective analytics workflow using open-source technologies. Evaluation Plan The synopsis proposes evaluating the analytical approach using appropriate measures such as accuracy, precision, recall, F1-score and/or MSE, depending on the selected task.
+
+--- SLIDE 21 ---
+Conclusion & Future Work Conclusion • The project proposes a unified web analytics platform for collecting, processing, analysing and visualizing user activity. • It combines Flask, database storage, Python data tools, machine learning and Streamlit -based visualization. • The expected outcome is better understanding of visitor behaviour and improved website decision-making. Future Work • Complete full-stack implementation and deployment. • Expand behavioural modelling and dashboard capabilities. • Validate the system with broader real-world interaction datasets. • Improve customization for different websites and organizations. Overall vision: a simple, intelligent and cost-effective platform for actionable web user insights.
+
+--- SLIDE 22 ---
+Type of Project & Expected Benefits Type of Project • Application-Based Project • Supporting Research Component • Practical analytics platform grounded in Web Usage Mining literature • Combines a deployable web application with analytical and visualization components Expected Benefits • Improved understanding of browsing behaviour • Better website performance and usability • Interactive dashboards for user activity • Data-driven decision-making • Enhanced user experience • Cost-effective open-source solution
+
+--- SLIDE 23 ---
+References • [1] J. Srivastava, R. Cooley, M. Deshpande, and P.-N. Tan, “Web usage mining: Discovery and applications of usage patterns from web data,” SIGKDD Explorations, 2000. • [2] F. Pedregosa et al., “Scikit-learn: Machine learning in Python,” Journal of Machine Learning Research, 2011. • [3] J. D. Hunter, “Matplotlib: A 2D graphics environment,” Computing in Science & Engineering, 2007. • [4] M. L. Waskom, “Seaborn: Statistical data visualization,” Journal of Open Source Software, 2021. • [5] W. McKinney, “Data structures for statistical computing in Python,” Proceedings of the Python in Science Conference, 2010. • [6] Plotly Technologies Inc., “Collaborative data science,” 2015. Online. • [7] Streamlit Inc., “ Streamlit documentation,” 2024. Online. • [8] Pallets Projects, “Flask documentation,” 2024. Online. • [9] B. Mobasher, R. Cooley, and J. Srivastava, “Automatic personalization based on web usage mining,” Communications of the ACM, 2000. • [10] R. Kosala and H. Blockeel , “Web mining research: A survey,” SIGKDD Explorations, 2000.
+
+--- SLIDE 24 ---
+Appendix Project Contribution {5C22544A-7EE6-4342-B048-85BDC9FD1C3A} Area Contribution Web Analytics Collects and analyzes user activity such as visits, clicks and sessions. Data Analytics Preprocesses and transforms interaction data for analysis. Machine Learning Discovers user behaviour patterns from processed activity data. Visualization Presents insights through interactive charts and dashboards. Practical Impact Supports website usability, performance monitoring and data-driven decisions. Application-Based + Research-Oriented project
+
+--- SLIDE 25 ---
+Thank You Questions & Discussion WEB USER BEHAVIOUR ANALYSIS ITS Engineering College, Greater Noida
+
+==================================================
+PDF: final2.pdf
+==================================================
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+Reading PDF with fitz...
+Total Pages: 12
+
+--- PDF PAGE 1 ---
+1
+ 
+ 
+ 
+ 
+ 
+ 
+SYNOPSIS 
+ON 
+WEB USER BEHAVIOUR ANALYSIS 
+ 
+Submitted in partial fulfillment of the requirements 
+for the award of the degree of 
+ 
+Bachelor of Technology 
+in 
+Computer Science and Engineering 
+by 
+Abhineet Kr Sinha (2302220100009) 
+Viswajeet Kr Singh (2302220100010) 
+Sanjeet Kumar (2302220100163) 
+Amrit Raj (2302220100032) 
+ 
+ 
+Semester - VII 
+Under the Supervision of 
+Mr. Manik Chandra Panday 
+ 
+ 
+ 
+THE EDUCATION GROUP 
+ 
+ 
+ 
+ 
+ 
+ 
+ITS Engineering College, Greater Noida 201306 
+Affiliated to 
+ 
+ 
+ 
+ 
+Dr. APJ Abdul Kalam Technical University, Lucknow 
+(Session: 2026-2027) 
+
+
+--- PDF PAGE 2 ---
+2
+ 
+ABSTRACT 
+ 
+The rapid growth of digital platforms has increased the need to understand how users interact 
+with websites. Every user action, such as page visits, clicks, navigation paths, and session 
+duration, provides valuable information that can help improve website performance and user 
+experience. However, many existing analytics tools cither provide only basic statistics or arc 
+expensive and difficult for small organizations to customize. 
+Web User Behaviour Analysis is a web-based application developed to collect, process, 
+analyze, and visualize user interaction data using data analytics and machine learning 
+techniques. The system records user activities and stores them in a database for further 
+processing. Data preprocessing is performed using Pandas and NumPy, while Scikit-learn is 
+used to identify user behaviour patterns through machine learning algorithms. The results are 
+presented through an interactive Streamlit dashboard using Matplotlib, Seaborn, and Plotly for 
+graphical visualization. 
+The application is developed using HTML, CSS, JavaScript. Bootstrap, and Python Flask, 
+providing a responsive and user-friendly interface, with MySQL/MongoDB used for data 
+storage. The processed information helps website administrators understand visitor behaviour, 
+identify popular pages, improve navigation, and make informed decisions based on user 
+interaction data. 
+The expected outcome of the project is a simple, intelligent, and cost-effective analytics 
+platform that enables organizations to better understand their website users, improve user 
+engagement, and enhance website performance through data-driven insights. 
+Keywords: Web Analytics, User Behaviour Analysis, Machine Learning, Data Visualization, 
+Flask, Streamlit, Web Usage Mining. 
+
+
+--- PDF PAGE 3 ---
+3
+ 
+1. Introduction 
+ 
+Understanding how visitors behave once they arrive at a website has become one of the most 
+important challenges for modern organizations. As digital services expand across every sector, 
+the ability to translate raw' interaction data into meaningful, actionable insight has moved from 
+being a competitive advantage to a basic operational necessity. 
+1.1 Background 
+The rapid growth of the internet has transformed the way people access information, 
+communicate, shop, and use online services. Websites have become an essential part of 
+businesses, educational institutions, healthcare organizations, banking systems, and e- 
+commerce platforms. Every interaction performed by a user, such as visiting a page, clicking a 
+button, searching for information, or completing a transaction, generates valuable data that 
+reflects user behaviour. 
+ 
+Traditional web analytics tools provide information such as page views, visitor count, and 
+session duration. While these statistics are useful, they do not provide detailed insights into 
+user behaviour, browsing patterns, or user preferences. Data analysis and machine learning 
+techniques can help discover meaningful patterns from user activity, allowing website owners 
+to improve website design, user experience, and decision-making. 
+1.2 Motivation 
+Website owners need more than simple visitor statistics to understand how users interact with 
+their websites. Identifying browsing patterns, popular pages, and user engagement helps 
+improve website performance and customer satisfaction. Many available analytics solutions 
+arc expensive or provide limited customization for small organizations and educational 
+projects. 
+Web User Behaviour Analysis is developed to provide a simple and intelligent analytics 
+platform where website administrators can: 
+ 
+Collect user interaction data from websites. 
+• 
+Analyze browsing behaviour using machine learning. 
+• 
+Visualize user activity through interactive dashboards. 
+ 
+• 
+Monitor website performance. 
+Support better decision-making using data-driven insights. 
+
+
+--- PDF PAGE 4 ---
+4
+ 
+1.3 Proposed Solution 
+Web User Behaviour Analysis provides an intelligent platform for collecting, processing, and 
+analyzing website user activity. The system records user interactions and applies data 
+processing and machine learning techniques to identify behaviour patterns and generate useful 
+insights. The platform includes the following key features: 
+ 
+• User activity tracking and clickstrcam analysis 
+Session analysis and data preprocessing 
+• User behaviour clustering using machine learning 
+• Interactive dashboard with graphical data visualization 
+ 
+• User behaviour reports and website performance monitoring 
+The system enables website owners to understand visitor behaviour, improve website usability, 
+and optimize overall website performance. 
+1.4 Expected Benefits 
+The proposed Web User Behaviour Analysis system is expected to provide the following 
+benefits: 
+• Improved understanding of user browsing behaviour through detailed analysis. 
+• Better website performance by identifying frequently visited and less engaging pages. 
+ 
+• Interactive dashboards for clear visualization of user activity. 
+• Data-driven decision making using machine learning insights. 
+• Enhanced user experience by understanding visitor preferences. 
+• Cost-effective 
+web 
+analytics 
+solution 
+using 
+open-source 
+technologies. 
+Collectively, these benefits help organizations improve website usability, increase user 
+engagement, and make informed business decisions based on user behaviour data. 
+
+
+--- PDF PAGE 5 ---
+5
+ 
+Research
+Strengths
+Limitationst
+Traditional Web 
+Analytics
+Provides visitor statistics, page views, 
+and session information.
+Google Analytics
+Popular, feature-rich, and widely used 
+for website traffic analysis.
+Open-Source Analytics 
+Tools
+Easy to deploy and cost-effective
+Research-Based 
+Behaviour Analysis 
+Systems
+Focus on specific analytical models
+Focuses heavily on theoretical data 
+mining models without providing 
+real-time dashboarding or modern 
+web integrations.. 
+Provides a customizable, open-source 
+solution with behaviour prediction 
+and clustering. 
+Integrates data preprocessing, 
+machine learning, and advanced 
+visualization in one platform. 
+Combines web analytics, machine 
+learning, and visualization into a 
+complete application for practical use.
+2. Literature Survey 
+ 
+A structured review of existing literature and analytics platforms was carried out to understand 
+the techniques currently used for studying user behaviour on the web, and to identify the gaps 
+that the proposed system aims to address. 
+2.1 Comparative Analysis of Existing Approaches 
+A review of existing web analytics platforms and research studies was conducted to understand 
+current techniques for analysing user behaviour. Table 1 highlights the strengths and limitations 
+of commonly used approaches and how the proposed system improves upon them. 
+Table 1: Comparative Analysis of Literature & Research Approaches 
+ 
+ 
+ 
+2.2 Existing Research 
+Several researchers have explored the use of Web Usage Mining and Machine Learning to 
+understand user behaviour [1J. [9], [10]. Studies show that analyzing user interactions such as 
+page visits, clicks, and navigation paths helps improve website usability, personalize content, 
+and enhance customer satisfaction. Machine learning techniques such as clustering and 
+classification arc widely used to group users with similar browsing patterns and predict future 
+user behaviour [2], 
+ 
+Modern visualization tools have also improved the presentation of analytical results by 
+converting complex datasets into easy-to-understand charts and dashboards [3], [4], [6|. These 
+technologies help organizations make faster and more informed decisions based on user 
+activity. 
+
+
+--- PDF PAGE 6 ---
+6
+ 
+ 
+Framework-level studies further show that lightweight, open-source web stacks such as flask 
+ 
+[8] combined with data-oriented dashboard frameworks such as Streamlit [7] allow small teams 
+to build and deploy analytical applications quickly, without the licensing overhead associated 
+with commercial analytics suites. This makes such frameworks particularly suitable for 
+academic and small-organization projects. 
+2.3 Research Gap 
+Most existing web analytics systems focus on traffic statistics and predefined reports. Few 
+provide an integrated solution that combines data collection, preprocessing, machine learning, 
+and interactive visualization in a simple and cost-effective application. 
+ 
+The proposed Web User Behaviour Analysis system addresses this gap by integrating web 
+technologies, data analytics, machine learning, and visualization into a single platform. It 
+provides meaningful insights that help website owners improve user experience, optimize 
+website performance, and make data-driven decisions. 
+
+
+--- PDF PAGE 7 ---
+7
+ 
+3. Problem Formulation 
+ 
+3.1 Existing Challenges 
+With the increasing use of websites for business, education, healthcare, banking, and e- 
+commcrcc, understanding user behaviour has become essential for improving website 
+performance and user satisfaction. Most websites generate large amounts of user interaction 
+data, such as page visits, clicks, navigation paths, and session duration. However, many 
+organizations rely only on basic web analytics tools that provide limited information like visitor 
+count, page views, and bounce rate. 
+These traditional analytics tools often fail to explain why users leave a website, which pages 
+attract the most attention, or how users navigate through different sections of a website. As a 
+result, website owners find it difficult to identify user interests, improve website design, and 
+make informed decisions. Advanced analytics solutions arc often expensive and require 
+technical expertise, making them less suitable for small businesses, startups, and educational 
+organizations. 
+3.2 Proposed Solution 
+The proposed Web User Behaviour Analysis system addresses these challenges by providing 
+a simple and intelligent web analytics platform. The system collects user interaction data, stores 
+it in a database, and processes it using data analysis and machine learning techniques. 
+ 
+The application analyzes user behaviour by identifying browsing patterns, user engagement, 
+and navigation trends. It presents the results through an interactive dashboard with graphical 
+visualizations, allowing website administrators to understand visitor behaviour and improve 
+website performance. 
+The system is developed using HTML, CSS, JavaScript, Bootstrap, Python Flask, 
+MySQL/MongoDB, Pandas, NumPy, Scikit-learn, Streamlit, Matplotlib, Seaborn, and Plotly. 
+By combining web technologies with machine learning and data visualization, the proposed 
+solution provides a cost-effective and user-friendly platform for analysing website user 
+behaviour and supporting data-driven decision making. 
+
+
+--- PDF PAGE 8 ---
+8
+ 
+4.Objectives 
+ 
+To achieve the core vision of this project, the proposed work is structured 
+around the following key objectives: 
+ 
+• 
+To study existing web analytics techniques and user behaviour analysis methods through 
+a detailed literature survey. 
+• 
+To develop a web-based application that collects, processes, and analyses website user 
+activity using data analysis and machine learning techniques. 
+• 
+To design an interactive dashboard that visualizes user behaviour patterns and helps 
+website administrators improve user experience and website performance. 
+• 
+To evaluate the performance of the proposed recommendation system using 
+appropriate error metrics (e.g., accuracy, precision, recall, and F1-score / 
+MSE).  
+
+
+--- PDF PAGE 9 ---
+9
+ 
+5.Methodology / Planning of Work 
+ 
+The proposed system will be built incrementally, moving from requirement gathering and 
+design in the early part of the project to full-stack development, machine learning integration, 
+and deployment in the later stages. This phased approach ensures that each component is 
+validated before the next is built on top of it, reducing rework and keeping the project aligned 
+with the defined objectives. 
+The development of the proposed system will be carried out in the following phases, planned 
+across the seventh and eighth semesters: 
+Table 2: Phase-Wise Methodology of the Proposed Work 
+Phase 
+Activities 
+ 
+Phase 1 - Requirement 
+Analysis 
+Phase 2 - System Design 
+Study existing web analytics systems, identify project requirements, and 
+define user behaviour metrics. 
+Design the system architecture, database schema, and user interface 
+ 
+Phase 3 - Development 
+Develop the frontend using 11TML, CSS, JavaScript, and Bootstrap, and 
+the backend using Python Flask. 
+Phase 4 - Data Processing & 
+Machine Learning 
+Phase 5 - Dashboard & 
+Testing 
+Store user activity data, preprocess it using Pandas and NumPy, and 
+apply machine learning algorithms using Scikit-learn. 
+Develop the Streamlit dashboard, create visualizations, and perform 
+functional and usability testing. 
+Phase 6 - Deployment 
+Deploy the application on Render or Heroku and prepare the final 
+documentation. 
+
+
+--- PDF PAGE 10 ---
+6. Activity Chart 
+ 
+The project activities arc planned across the seventh and eighth semesters to ensure systematic 
+development and timely completion, as shown in Table 3. 
+Table 3: Semester-Wise Activity Chart 
+ 
+Activity 
+Semester VII 
+Semester VIII 
+ 
+Project Topic Selection 
+Literature Survey 
+Requirement Analysis 
+System Design 
+Database Design 
+Frontend Development 
+Backend Development 
+Database Integration 
+Data Collection & Preprocessing 
+Machine Learning Model Development 
+Dashboard Development 
+Data Visualization 
+Testing & Bug Fixing 
+Deployment 
+Documentation & Final Report 
+ 
+Project Presentation & Viva 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+10 
+
+
+--- PDF PAGE 11 ---
+7. SDG Goals Relevance 
+ 
+Table 4 presents the mapping of the proposed project to the relevant Sustainable Development 
+Goals (SDGs). 
+Table 4: Mapping of the Project to Sustainable Development Goals 
+ 
+Project Name 
+Problem Description 
+SDG No.: SDG Name 
+ 
+ 
+ 
+Web User Behaviour 
+Analysis 
+Many organizations struggle to understand user 
+interaction and improve website performance using 
+traditional analytics tools. The proposed system 
+uses machine learning and data visualization to 
+provide meaningful insights into user behaviour and 
+support better decision-making. 
+ 
+SDG 9: Industry, 
+Innovation and 
+infrastructure SDG 8: 
+Decent Work and 
+Economic Growth 
+ 
+ 
+Justification 
+• 
+The project promotes digital innovation by applying machine learning and data analytics 
+to improve website performance and user experience (SDG 9). 
+• 
+11 provides an affordable and intelligent analytics solution that helps businesses make 
+data-driven decisions and improve digital services (SDG 9). 
+• 
+By helping organizations optimize their online platforms and increase user engagement, 
+the project supports productivity, business growth, and innovation (SDG 8). 
+ 
+ 
+8. Type of Project 
+The proposed work, Web User Behaviour Analysis, is an Application-Based Project with a 
+supporting Research component. 
+ 
+• 
+Application-Based: The project delivers a fully functional, deployable web application 
+that collects, processes, and visualizes real user interaction data through a working Flask- 
+based backend, a responsive frontend, and an interactive Streamlit dashboard. 
+• 
+Research-Oriented: The project involves the study and application of machine learning 
+techniques for behaviour pattern discovery, drawing on Web Usage Mining literature to 
+guide the design of the analytical component. 
+This combination ensures that the project is grounded in established research while producing 
+a practical, usable analytics platform that addresses a real-world need for organizations seeking 
+to understand their website visitors. 
+ 
+ 
+ 
+ 
+ 
+ 
+11 
+
+
+--- PDF PAGE 12 ---
+References 
+ 
+[1] J. Srivastava, R. Cooley, M. Deshpande, and P.-N. Tan, “Web usage mining: Discovery 
+and applications of usage patterns from web data,” SIGKDD Explorations, vol. 1, no. 2, 
+pp. 12-23,2000. 
+ 
+[2] 
+F. Pedregosa ct al., “Scikit-learn: Machine learning in Python,” Journal of Machine 
+Learning Research, vol. 12, pp. 2825-2830, 2011. 
+[3] 
+.1. D. Hunter, “Matplotlib: A 2D graphics environment,” Computing in Science & 
+Engineering, vol. 9, no. 3, pp. 90-95, 2007. 
+[4] M. L. Waskom, “Seaborn: Statistical data visualization,” Journal of Open Source Software, 
+vol. 6, no. 60, p. 3021,2021. 
+[5] W. McKinney, “Data structures for statistical computing in Python,” Proceedings of the 
+9th Python in Science Conference, pp. 56-61, 2010. 
+[6] Plolly Technologies Inc., “Collaborative data science,” Plotly Technologies lnc„ Montreal, 
+QC, Canada, 2015. [Online], Available: https://plot.ly 
+ 
+[7] 
+Streamlit Inc., “Streamlit documentation,” Streamlit Inc., 2024. [Online], Available: 
+https://docs.streamlit.io 
+[8] 
+Pallets Projects, “Flask documentation,” Pallets Projects, 2024. [Online], Available: 
+https://flask.pallctsprojccts.com 
+[9] B. Mobasher, R. Cooley, and J. Srivastava, “Automatic personalization based on web usage 
+mining,” Communications of the ACM, vol. 43, no. 8, pp. 142-151, 2000. 
+[10] R. Kosala and H. Blocked, “Web mining research: A survey,” SIGKDD Explorations, 
+vol. 2, no. I, pp. 1-15. 2000. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+                                                                         12 
+

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Now & Express Checkout - Web User Behaviour Analysis</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/style.css">
+    <style>
+        .checkout-step-badge {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #4f46e5;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .payment-option-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .payment-option-card:hover, .payment-option-card.active {
+            border-color: #4f46e5;
+            background-color: #f5f3ff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Real-time Tracking Badge -->
+    <div class="tracking-badge">
+        <div class="pulse-dot"></div>
+        <span>Behavior Tracker Active</span>
+        <a href="/sem7_dashboard.html" class="btn btn-sm btn-primary ms-2 py-0 px-2" style="font-size: 11px;">View Dashboard</a>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/" id="nav-brand">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                WUBA Analytics Demo
+            </a>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/" id="nav-home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products.html" id="nav-products">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart.html" id="nav-cart">Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/blog.html" id="nav-blog">Research Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact.html" id="nav-contact">Contact</a></li>
+                </ul>
+                <div class="d-flex gap-2">
+                    <a href="/sem7_dashboard.html" class="btn btn-outline-primary" id="btn-nav-dashboard">📊 Analytics Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="bg-white border-bottom py-4 mb-4">
+        <div class="container">
+            <h1 class="fw-bold h2 mb-1">Buy Now & Express Checkout</h1>
+            <p class="text-muted mb-0">Complete your transaction to log behavioral conversion and order funnel metrics.</p>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        <div class="row g-4">
+            <!-- Checkout Form Column -->
+            <div class="col-lg-7">
+                <form id="checkout-form" onsubmit="event.preventDefault(); processOrder();">
+
+                    <!-- Step 1: Customer Contact -->
+                    <div class="card border rounded-3 p-4 shadow-sm mb-4">
+                        <h5 class="fw-bold mb-3 d-flex align-items-center">
+                            <span class="checkout-step-badge">1</span> Contact Information
+                        </h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Full Name</label>
+                                <input type="text" class="form-control" id="customer-name" placeholder="John Doe" required value="Viswajeet Singh">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Email Address</label>
+                                <input type="email" class="form-control" id="customer-email" placeholder="john@example.com" required value="student@college.edu">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Phone Number</label>
+                                <input type="tel" class="form-control" id="customer-phone" placeholder="+91 98765 43210" required value="+91 9876543210">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Shipping Address -->
+                    <div class="card border rounded-3 p-4 shadow-sm mb-4">
+                        <h5 class="fw-bold mb-3 d-flex align-items-center">
+                            <span class="checkout-step-badge">2</span> Shipping Address
+                        </h5>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Street Address</label>
+                                <input type="text" class="form-control" id="shipping-address" placeholder="42 Knowledge Park III" required value="ITS Engineering College Campus">
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label small fw-semibold">City</label>
+                                <input type="text" class="form-control" id="shipping-city" placeholder="Greater Noida" required value="Greater Noida">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">State</label>
+                                <input type="text" class="form-control" id="shipping-state" placeholder="Uttar Pradesh" required value="Uttar Pradesh">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-semibold">PIN Code</label>
+                                <input type="text" class="form-control" id="shipping-zip" placeholder="201306" required value="201306">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Payment Method -->
+                    <div class="card border rounded-3 p-4 shadow-sm mb-4">
+                        <h5 class="fw-bold mb-3 d-flex align-items-center">
+                            <span class="checkout-step-badge">3</span> Payment Method
+                        </h5>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <div class="payment-option-card active" onclick="selectPayment(this, 'card')">
+                                    <div class="fw-bold">💳 Credit / Debit Card</div>
+                                    <div class="small text-muted">Visa, MasterCard, RuPay</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="payment-option-card" onclick="selectPayment(this, 'upi')">
+                                    <div class="fw-bold">📱 UPI / QR Code</div>
+                                    <div class="small text-muted">GPay, PhonePe, Paytm</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Fields -->
+                        <div id="payment-card-fields">
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold">Card Number</label>
+                                <input type="text" class="form-control" id="card-number" placeholder="4532 •••• •••• 8921" value="4532 8841 9023 8921">
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold">Expiry Date</label>
+                                    <input type="text" class="form-control" id="card-expiry" placeholder="MM/YY" value="08/29">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold">CVV</label>
+                                    <input type="password" class="form-control" id="card-cvv" placeholder="•••" maxlength="3" value="789">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- UPI Fields -->
+                        <div id="payment-upi-fields" style="display:none;">
+                            <label class="form-label small fw-semibold">Enter UPI VPA ID</label>
+                            <input type="text" class="form-control" id="upi-id" placeholder="username@upi" value="student@okhdfcbank">
+                        </div>
+                    </div>
+
+                    <!-- Place Order Button -->
+                    <button type="submit" class="btn btn-success btn-lg w-100 fw-bold py-3 shadow" id="btn-place-order">
+                        🎉 Place Order & Complete Purchase
+                    </button>
+                </form>
+            </div>
+
+            <!-- Order Summary Column -->
+            <div class="col-lg-5">
+                <div class="card border rounded-3 p-4 shadow-sm position-sticky" style="top: 90px;">
+                    <h5 class="fw-bold mb-3">Order Summary</h5>
+
+                    <!-- Order Items List -->
+                    <div id="checkout-items-list" class="mb-3">
+                        <!-- Loaded dynamically -->
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between text-muted mb-2">
+                        <span>Subtotal:</span>
+                        <strong class="text-dark" id="checkout-subtotal">$0.00</strong>
+                    </div>
+                    <div class="d-flex justify-content-between text-muted mb-2">
+                        <span>Shipping Delivery:</span>
+                        <span class="text-success fw-semibold" id="checkout-shipping">FREE</span>
+                    </div>
+                    <div class="d-flex justify-content-between text-muted mb-2">
+                        <span>Estimated Tax (8%):</span>
+                        <strong class="text-dark" id="checkout-tax">$0.00</strong>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between fs-4 fw-bold mb-3">
+                        <span>Grand Total:</span>
+                        <span class="text-primary" id="checkout-grand-total">$0.00</span>
+                    </div>
+
+                    <div class="p-3 bg-light rounded-3 border small text-muted">
+                        <div class="fw-semibold text-dark mb-1">🛡️ Purchase Protection</div>
+                        <div>Every purchase triggers real-time funnel conversion metrics in the behavioral analytics database.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Success Modal -->
+    <div class="modal fade" id="orderSuccessModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center p-4">
+                <div style="font-size: 70px;">🎉</div>
+                <h3 class="fw-bold text-success mb-2">Order Confirmed!</h3>
+                <p class="text-muted mb-3">Thank you for your purchase. Your conversion interaction has been recorded in the database!</p>
+
+                <div class="bg-light p-3 rounded-3 text-start small mb-4 border">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="text-muted">Order ID:</span>
+                        <strong id="modal-order-id">ORD-78912</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="text-muted">Total Paid:</span>
+                        <strong class="text-primary" id="modal-total-paid">$0.00</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Est. Delivery:</span>
+                        <span class="fw-semibold text-success">3 Business Days</span>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <a href="/sem7_dashboard.html" class="btn btn-primary fw-bold py-2" id="modal-btn-dashboard">
+                        📊 View Conversion on Analytics Dashboard
+                    </a>
+                    <a href="/products.html" class="btn btn-outline-secondary" id="modal-btn-continue">
+                        Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/js/cart.js"></script>
+    <script>
+        let checkoutItems = [];
+
+        function selectPayment(el, type) {
+            document.querySelectorAll('.payment-option-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            if (type === 'card') {
+                document.getElementById('payment-card-fields').style.display = 'block';
+                document.getElementById('payment-upi-fields').style.display = 'none';
+            } else {
+                document.getElementById('payment-card-fields').style.display = 'none';
+                document.getElementById('payment-upi-fields').style.display = 'block';
+            }
+        }
+
+        function loadCheckout() {
+            const params = new URLSearchParams(window.location.search);
+            const directId = params.get('id');
+
+            // If direct Buy Now via query parameter
+            if (directId && WUBA_CATALOG[directId]) {
+                const item = WUBA_CATALOG[directId];
+                const qty = parseInt(params.get('qty') || '1');
+                checkoutItems = [{
+                    id: item.id,
+                    name: item.name,
+                    category: item.category,
+                    price: item.price,
+                    icon: item.icon,
+                    qty: qty
+                }];
+            } else {
+                // Otherwise use items in cart
+                checkoutItems = CartService.getCart();
+                if (checkoutItems.length === 0) {
+                    // Default to prod_1 if cart is completely empty
+                    checkoutItems = [{
+                        id: 'prod_1',
+                        name: WUBA_CATALOG['prod_1'].name,
+                        category: WUBA_CATALOG['prod_1'].category,
+                        price: WUBA_CATALOG['prod_1'].price,
+                        icon: WUBA_CATALOG['prod_1'].icon,
+                        qty: 1
+                    }];
+                }
+            }
+
+            // Render summary items
+            const listEl = document.getElementById('checkout-items-list');
+            listEl.innerHTML = '';
+            let subtotal = 0;
+
+            checkoutItems.forEach(item => {
+                const itemTotal = item.price * item.qty;
+                subtotal += itemTotal;
+                const row = document.createElement('div');
+                row.className = 'd-flex justify-content-between align-items-center py-2 border-bottom';
+                row.innerHTML = `
+                    <div class="d-flex align-items-center gap-2">
+                        <span style="font-size: 24px;">${item.icon || '📦'}</span>
+                        <div>
+                            <div class="fw-bold small">${item.name}</div>
+                            <div class="text-muted small">Qty: ${item.qty} × $${item.price}</div>
+                        </div>
+                    </div>
+                    <strong class="text-dark">$${itemTotal}</strong>
+                `;
+                listEl.appendChild(row);
+            });
+
+            const shipping = subtotal > 100 ? 0 : 15;
+            const tax = Math.round(subtotal * 0.08 * 100) / 100;
+            const grandTotal = subtotal + shipping + tax;
+
+            document.getElementById('checkout-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('checkout-shipping').innerText = shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`;
+            document.getElementById('checkout-tax').innerText = `$${tax.toFixed(2)}`;
+            document.getElementById('checkout-grand-total').innerText = `$${grandTotal.toFixed(2)}`;
+        }
+
+        function processOrder() {
+            const btn = document.getElementById('btn-place-order');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Processing Payment...';
+
+            // Send product conversion events for each checkout item
+            checkoutItems.forEach(item => {
+                fetch('/api/track/product', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        session_id: sessionStorage.getItem('wuba_session_id') || 'sess_direct_buy',
+                        visitor_id: localStorage.getItem('wuba_visitor_id') || 'vis_direct',
+                        product_id: item.id,
+                        product_name: item.name,
+                        category: item.category,
+                        price: item.price,
+                        event_type: 'buy_now',
+                        dwell_time: 0
+                    })
+                }).catch(e => console.debug('Track buy now error:', e));
+            });
+
+            // Clear cart if purchase complete
+            CartService.clearCart();
+
+            setTimeout(() => {
+                const grandTotal = document.getElementById('checkout-grand-total').innerText;
+                const randomId = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
+
+                document.getElementById('modal-order-id').innerText = randomId;
+                document.getElementById('modal-total-paid').innerText = grandTotal;
+
+                const modal = new bootstrap.Modal(document.getElementById('orderSuccessModal'));
+                modal.show();
+
+                btn.disabled = false;
+                btn.innerHTML = '🎉 Place Order & Complete Purchase';
+            }, 800);
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCheckout);
+    </script>
+    <!-- Tracking Script -->
+    <script src="/public/js/tracker.js"></script>
+</body>
+</html>

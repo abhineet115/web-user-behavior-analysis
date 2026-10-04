@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - Web User Behaviour Analysis</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/dashboard.css">
+</head>
+<body class="dashboard-body">
+
+    <!-- Top Navigation Header -->
+    <header class="dash-header">
+        <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-3">
+                <h4 class="mb-0 fw-bold text-white">Web User Behaviour Analysis</h4>
+                <span class="text-secondary small d-none d-md-inline">| Machine Learning & Web Usage Mining Platform</span>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <span class="live-indicator"></span>
+                <span class="small text-success fw-semibold me-3">Server Active & Recording</span>
+                <button class="btn btn-sm btn-outline-info" id="btn-refresh-preprocess">🔄 Run Preprocessing</button>
+                <button class="btn btn-sm btn-warning text-dark fw-bold" id="btn-seed-data">⚡ Generate Test Traffic</button>
+                <a href="/" class="btn btn-sm btn-primary ms-2" target="_blank">🌐 Open Tracked Site</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid px-4 py-4">
+
+
+
+        <!-- Real-time KPI Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-xl-2 col-md-4 col-6">
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa;">👥</div>
+                    <div class="kpi-title">Total Visitors</div>
+                    <div class="kpi-value" id="kpi-visitors">0</div>
+                    <div class="kpi-sub">Unique client IDs</div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-md-4 col-6">
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">⏱️</div>
+                    <div class="kpi-title">User Sessions</div>
+                    <div class="kpi-value" id="kpi-sessions">0</div>
+                    <div class="kpi-sub">Tracked browser visits</div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-md-4 col-6">
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="background: rgba(139, 92, 246, 0.2); color: #a78bfa;">📄</div>
+                    <div class="kpi-title">Page Views</div>
+                    <div class="kpi-value" id="kpi-pageviews">0</div>
+                    <div class="kpi-sub">Navigation impressions</div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-md-4 col-6">
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;">🖱️</div>
+                    <div class="kpi-title">Click Events</div>
+                    <div class="kpi-value" id="kpi-clicks">0</div>
+                    <div class="kpi-sub">DOM element interactions</div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-md-4 col-6">
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="background: rgba(6, 182, 212, 0.2); color: #22d3ee;">⏳</div>
+                    <div class="kpi-title">Avg Duration</div>
+                    <div class="kpi-value" id="kpi-duration">0s</div>
+                    <div class="kpi-sub">Dwell time per session</div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-md-4 col-6">
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="background: rgba(239, 68, 68, 0.2); color: #f87171;">📉</div>
+                    <div class="kpi-title">Bounce Rate</div>
+                    <div class="kpi-value" id="kpi-bounce">0%</div>
+                    <div class="kpi-sub">Single-page exits</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Per-Product Behavioral Analytics & Visual Graphs -->
+        <div class="panel-card mb-4">
+            <div class="panel-title">
+                <div class="d-flex align-items-center gap-3">
+                    <span>🛍️ Per-Product Behavioral Analytics & Funnel Graphs</span>
+                    <span class="badge bg-info text-dark fw-bold">Live Product Tracking</span>
+                </div>
+                <div class="small text-secondary" id="product-summary-badge">Loading product metrics...</div>
+            </div>
+
+            <!-- Product Graphs Row -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-8">
+                    <div class="p-3 rounded bg-dark border border-secondary" style="height: 340px; position: relative;">
+                        <div class="fw-bold small text-secondary mb-2">📊 Product Engagement & Conversion Funnel (Views vs Clicks vs Cart vs Purchases)</div>
+                        <div style="height: 280px; position: relative;">
+                            <canvas id="productFunnelChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="p-3 rounded bg-dark border border-secondary" style="height: 340px; position: relative;">
+                        <div class="fw-bold small text-secondary mb-2">🎯 Category Interest Share</div>
+                        <div style="height: 280px; position: relative;">
+                            <canvas id="categoryShareChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Per Product Performance Table -->
+            <div class="table-responsive">
+                <table class="table table-dark table-dark-custom align-middle">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Views (Impressions)</th>
+                            <th>Detail Clicks</th>
+                            <th>Add to Cart</th>
+                            <th>Purchases</th>
+                            <th>Avg Dwell Time</th>
+                            <th>Conversion Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody id="product-performance-body">
+                        <tr><td colspan="9" class="text-center text-secondary py-3">Loading product performance data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Middle Section: Preprocessed Data Engine (Pandas & NumPy) -->
+        <div class="panel-card">
+            <div class="panel-title">
+                <div class="d-flex align-items-center gap-3">
+                    <span>🔬 Data Preprocessing & Behavioral Feature Engineering</span>
+                    <span class="badge bg-primary">Pandas & NumPy Pipeline</span>
+                </div>
+                <div id="segment-distribution-container"></div>
+            </div>
+            <p class="text-secondary small mb-3" id="preprocess-status">Loading preprocessed features...</p>
+            
+            <div class="table-responsive">
+                <table class="table table-dark table-dark-custom align-middle">
+                    <thead>
+                        <tr>
+                            <th>Session ID</th>
+                            <th>Visitor ID</th>
+                            <th>Duration</th>
+                            <th>Pages</th>
+                            <th>Clicks</th>
+                            <th>Avg Scroll</th>
+                            <th>Engagement Score (0-100)</th>
+                            <th>Behavioral Segment</th>
+                        </tr>
+                    </thead>
+                    <tbody id="preprocessed-table-body">
+                        <tr><td colspan="8" class="text-center text-secondary py-3">Loading sessions...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Bottom Row: Popular Pages & Live Activity Stream -->
+        <div class="row g-4">
+            <!-- Popular Pages -->
+            <div class="col-lg-6">
+                <div class="panel-card h-100">
+                    <div class="panel-title">
+                        <span>📊 Most Visited Pages & Average Dwell Time</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-dark table-dark-custom">
+                            <thead>
+                                <tr>
+                                    <th>Page Route</th>
+                                    <th>Total Visits</th>
+                                    <th>Avg Dwell Time</th>
+                                </tr>
+                            </thead>
+                            <tbody id="popular-pages-list">
+                                <tr><td colspan="3" class="text-center text-secondary">Loading page stats...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Event Ingestion Feed -->
+            <div class="col-lg-6">
+                <div class="panel-card h-100">
+                    <div class="panel-title">
+                        <span>⚡ Real-Time Ingested Events Stream</span>
+                        <span class="badge bg-secondary small">Live Socket / API Poller</span>
+                    </div>
+                    <div id="live-activity-feed" style="max-height: 250px; overflow-y: auto;">
+                        <div class="text-secondary small">Listening for events...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap, Chart.js & Dashboard Controller -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/public/js/dashboard.js"></script>
+</body>
+</html>

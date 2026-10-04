@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products Catalog — Web User Behaviour Analysis</title>
+    <meta name="description" content="Browse the full product catalog for the WUBA tracking demo. Every interaction is recorded for behavioral analysis.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/style.css">
+    <style>
+        .sidebar-card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:22px; position:sticky; top:84px; }
+        .sidebar-card h6 { font-weight:700; font-size:.82rem; text-transform:uppercase; letter-spacing:.6px; color:#64748b; margin-bottom:12px; }
+        .filter-btn { width:100%; text-align:left; font-size:.88rem; font-weight:500; border-radius:10px; padding:9px 14px; border:1.5px solid #e2e8f0; background:#f8fafc; color:#475569; transition:all .2s; cursor:pointer; }
+        .filter-btn:hover, .filter-btn.active { background:#ede9fe; border-color:#4f46e5; color:#4f46e5; }
+        .filter-btn .cat-icon { margin-right:8px; }
+        .price-check { accent-color:#4f46e5; }
+        #products-grid .col-md-4 { animation: fadeInUp 0.4s ease-out both; }
+        .product-count-badge { background:linear-gradient(135deg,#4f46e5,#6366f1); color:#fff; border-radius:20px; padding:2px 10px; font-size:.78rem; font-weight:700; }
+        .search-wrapper { position:relative; }
+        .search-wrapper .search-icon { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#94a3b8; pointer-events:none; }
+        .search-wrapper input { padding-left:40px; }
+        .no-results { display:none; text-align:center; padding:60px 20px; }
+        .no-results.show { display:block; }
+        .sort-select { font-size:.88rem; border-radius:10px; border:1.5px solid #e2e8f0; padding:8px 14px; color:#475569; font-weight:500; }
+        @keyframes fadeInUp { from{transform:translateY(16px);opacity:0} to{transform:translateY(0);opacity:1} }
+    </style>
+</head>
+<body>
+
+    <!-- Tracking Badge -->
+    <div class="tracking-badge">
+        <div class="pulse-dot"></div>
+        <span>Behavior Tracker Active</span>
+        <a href="/sem7_dashboard.html" class="btn btn-sm btn-primary ms-2 py-0 px-2" style="font-size:11px;">Dashboard</a>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/" id="nav-brand">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                WUBA Analytics Demo
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/" id="nav-home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active fw-semibold" href="/products.html" id="nav-products">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/blog.html" id="nav-blog">Research Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact.html" id="nav-contact">Contact</a></li>
+                </ul>
+                <div class="d-flex gap-2 align-items-center">
+                    <a href="/cart.html" class="btn btn-outline-dark position-relative" id="btn-nav-cart">
+                        🛒 Cart <span class="badge bg-danger rounded-pill cart-count-badge ms-1" style="display:none;">0</span>
+                    </a>
+                    <a href="/sem7_dashboard.html" class="btn btn-outline-primary" id="btn-nav-dashboard">📊 Analytics</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header-bar">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                <div>
+                    <h1 class="fw-bold h3 mb-1 section-heading">Products &amp; Services Catalog</h1>
+                    <p class="text-muted mb-0 small">Browse to generate clickstream activity and navigation paths for analysis.</p>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <span id="results-count-badge" class="product-count-badge">12 Products</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="sidebar-card">
+                    <!-- Search -->
+                    <h6>Search</h6>
+                    <div class="search-wrapper mb-4">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="form-control" id="product-search-input" placeholder="Search products...">
+                    </div>
+
+                    <!-- Categories -->
+                    <h6>Categories</h6>
+                    <div class="d-grid gap-2 mb-4">
+                        <button class="filter-btn active" id="filter-all" data-category="all"><span class="cat-icon">📁</span>All Products</button>
+                        <button class="filter-btn" id="filter-electronics" data-category="Electronics"><span class="cat-icon">💻</span>Electronics</button>
+                        <button class="filter-btn" id="filter-audio" data-category="Audio"><span class="cat-icon">🎧</span>Audio &amp; Sound</button>
+                        <button class="filter-btn" id="filter-wearables" data-category="Wearables"><span class="cat-icon">⌚</span>Wearables</button>
+                        <button class="filter-btn" id="filter-accessories" data-category="Accessories"><span class="cat-icon">🔌</span>Accessories</button>
+                    </div>
+
+                    <!-- Price Range -->
+                    <h6>Price Range</h6>
+                    <div class="d-flex flex-column gap-2 mb-4">
+                        <label class="d-flex align-items-center gap-2" style="cursor:pointer;font-size:.88rem;">
+                            <input class="price-check form-check-input m-0" type="checkbox" id="price-under-100"> Under $100
+                        </label>
+                        <label class="d-flex align-items-center gap-2" style="cursor:pointer;font-size:.88rem;">
+                            <input class="price-check form-check-input m-0" type="checkbox" id="price-100-500"> $100 – $500
+                        </label>
+                        <label class="d-flex align-items-center gap-2" style="cursor:pointer;font-size:.88rem;">
+                            <input class="price-check form-check-input m-0" type="checkbox" id="price-above-500"> Above $500
+                        </label>
+                    </div>
+
+                    <!-- Sort -->
+                    <h6>Sort By</h6>
+                    <select class="sort-select w-100" id="sort-select">
+                        <option value="default">Default</option>
+                        <option value="price-asc">Price: Low → High</option>
+                        <option value="price-desc">Price: High → Low</option>
+                        <option value="name">Name A–Z</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="col-lg-9">
+                <div class="row g-4" id="products-grid">
+
+                    <!-- Product 1 -->
+                    <div class="col-md-4 product-item" data-category="Audio" data-price="199" data-name="ANC Pro Headphones">
+                        <div class="product-card" data-product-id="prod_1" data-product-name="ANC Pro Headphones" data-category="Audio" data-price="199">
+                            <div class="product-img">🎧</div>
+                            <div class="product-card-body">
+                                <span class="badge bg-primary-subtle text-primary mb-2">Audio</span>
+                                <h5 class="fw-bold mb-1 fs-6">ANC Pro Headphones</h5>
+                                <p class="small text-muted mb-2 flex-grow-1">Wireless, 40h playtime, active noise cancelling.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-5 text-dark">$199</span>
+                                    <a href="/product-details.html?id=prod_1" class="btn btn-sm btn-outline-primary" id="btn-view-1" style="font-size:.8rem;border-radius:8px;">View Details</a>
+                                </div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button class="btn btn-success btn-add-cart" id="btn-cart-1" data-product-id="prod_1">🛒 Add to Cart</button>
+                                <a href="/checkout.html?id=prod_1" class="btn btn-primary btn-buy-now" id="btn-buy-1">⚡ Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="col-md-4 product-item" data-category="Wearables" data-price="149" data-name="Pulse Smartwatch X">
+                        <div class="product-card" data-product-id="prod_2" data-product-name="Pulse Smartwatch X" data-category="Wearables" data-price="149">
+                            <div class="product-img">⌚</div>
+                            <div class="product-card-body">
+                                <span class="badge bg-warning-subtle text-warning mb-2">Wearables</span>
+                                <h5 class="fw-bold mb-1 fs-6">Pulse Smartwatch X</h5>
+                                <p class="small text-muted mb-2 flex-grow-1">Heart rate monitor, GPS, water resistant 50m.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-5 text-dark">$149</span>
+                                    <a href="/product-details.html?id=prod_2" class="btn btn-sm btn-outline-primary" id="btn-view-2" style="font-size:.8rem;border-radius:8px;">View Details</a>
+                                </div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button class="btn btn-success btn-add-cart" id="btn-cart-2" data-product-id="prod_2">🛒 Add to Cart</button>
+                                <a href="/checkout.html?id=prod_2" class="btn btn-primary btn-buy-now" id="btn-buy-2">⚡ Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="col-md-4 product-item" data-category="Accessories" data-price="89" data-name="Mechanical Keyboard RGB">
+                        <div class="product-card" data-product-id="prod_3" data-product-name="Mechanical Keyboard RGB" data-category="Accessories" data-price="89">
+                            <div class="product-img">⌨️</div>
+                            <div class="product-card-body">
+                                <span class="badge bg-secondary-subtle text-secondary mb-2">Accessories</span>
+                                <h5 class="fw-bold mb-1 fs-6">Mechanical Keyboard RGB</h5>
+                                <p class="small text-muted mb-2 flex-grow-1">Hot-swappable tactile switches with wireless Bluetooth.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-5 text-dark">$89</span>
+                                    <a href="/product-details.html?id=prod_3" class="btn btn-sm btn-outline-primary" id="btn-view-3" style="font-size:.8rem;border-radius:8px;">View Details</a>
+                                </div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button class="btn btn-success btn-add-cart" id="btn-cart-3" data-product-id="prod_3">🛒 Add to Cart</button>
+                                <a href="/checkout.html?id=prod_3" class="btn btn-primary btn-buy-now" id="btn-buy-3">⚡ Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="col-md-4 product-item" data-category="Accessories" data-price="69" data-name="Ergo Precision Mouse">
+                        <div class="product-card" data-product-id="prod_4" data-product-name="Ergo Precision Mouse" data-category="Accessories" data-price="69">
+                            <div class="product-img">🖱️</div>
+                            <div class="product-card-body">
+                                <span class="badge bg-info-subtle text-info mb-2">Accessories</span>
+                                <h5 class="fw-bold mb-1 fs-6">Ergo Precision Mouse</h5>
+                                <p class="small text-muted mb-2 flex-grow-1">Ergonomic laser sensor with multi-device flow.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-5 text-dark">$69</span>
+                                    <a href="/product-details.html?id=prod_4" class="btn btn-sm btn-outline-primary" id="btn-view-4" style="font-size:.8rem;border-radius:8px;">View Details</a>
+                                </div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button class="btn btn-success btn-add-cart" id="btn-cart-4" data-product-id="prod_4">🛒 Add to Cart</button>
+                                <a href="/checkout.html?id=prod_4" class="btn btn-primary btn-buy-now" id="btn-buy-4">⚡ Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 5 -->
+                    <div class="col-md-4 product-item" data-category="Electronics" data-price="1499" data-name="Developer Workstation">
+                        <div class="product-card" data-product-id="prod_5" data-product-name="Developer Workstation" data-category="Electronics" data-price="1499">
+                            <div class="product-img">💻</div>
+                            <div class="product-card-body">
+                                <span class="badge bg-success-subtle text-success mb-2">Electronics</span>
+                                <h5 class="fw-bold mb-1 fs-6">Developer Workstation</h5>
+                                <p class="small text-muted mb-2 flex-grow-1">Core i9, 32GB RAM, 1TB NVMe, RTX Graphics.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-5 text-dark">$1,499</span>
+                                    <a href="/product-details.html?id=prod_5" class="btn btn-sm btn-outline-primary" id="btn-view-5" style="font-size:.8rem;border-radius:8px;">View Details</a>
+                                </div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button class="btn btn-success btn-add-cart" id="btn-cart-5" data-product-id="prod_5">🛒 Add to Cart</button>
+                                <a href="/checkout.html?id=prod_5" class="btn btn-primary btn-buy-now" id="btn-buy-5">⚡ Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 6 -->
+                    <div class="col-md-4 product-item" data-category="Audio" data-price="249" data-name="Studio Monitor Speaker">
+                        <div class="product-card" data-product-id="prod_6" data-product-name="Studio Monitor Speaker" data-category="Audio" data-price="249">
+                            <div class="product-img">🔊</div>
+                            <div class="product-card-body">
+                                <span class="badge bg-primary-subtle text-primary mb-2">Audio</span>
+                                <h5 class="fw-bold mb-1 fs-6">Studio Monitor Speaker</h5>
+                                <p class="small text-muted mb-2 flex-grow-1">Hi-Res room-filling acoustic studio monitor.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-5 text-dark">$249</span>
+                                    <a href="/product-details.html?id=prod_6" class="btn btn-sm btn-outline-primary" id="btn-view-6" style="font-size:.8rem;border-radius:8px;">View Details</a>
+                                </div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button class="btn btn-success btn-add-cart" id="btn-cart-6" data-product-id="prod_6">🛒 Add to Cart</button>
+                                <a href="/checkout.html?id=prod_6" class="btn btn-primary btn-buy-now" id="btn-buy-6">⚡ Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 7 -->
+                    <div class="col-md-4 product-item" data-category="Electronics" data-price="649" data-name="UltraWide Curved 4K Monitor">
+                        <div class="product-card" data-product-id="prod_7" data-product-name="UltraWide Curved 4K Monitor" data-category="Electronics" data-price="649">
+                            <div class="product-img">🖥️</div>
+                            <div class="product-card-body">
+                                <span class="badge bg-success-subtle text-success mb-2">Electronics</span>
+                                <h5 class="fw-bold mb-1 fs-6">UltraWide 4K Monitor</h5>
+                                <p class="small text-muted mb-2 flex-grow-1">34-inch 144Hz HDR curved IPS productivity display.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-5 text-dark">$649</span>
+                                    <a href="/product-details.html?id=prod_7" class="btn btn-sm btn-outline-primary" id="btn-view-7" style="font-size:.8rem;border-radius:8px;">View Details</a>
+                                </div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button class="btn btn-success btn-add-cart" id="btn-cart-7" data-product-id="prod_7">🛒 Add to Cart</button>
+                                <a href="/checkout.html?id=prod_7" class="btn btn-primary btn-buy-now" id="btn-buy-7">⚡ Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 8 -->
+                    <div class="col-md-4 product-item" data-category="Audio" data-price="129" data-name="Studio Condenser Mic">
+                        <div class="product-card" data-product-id="prod_8" data-product-name="Studio Condenser Mic" data-category="Audio" data-price="129">
+                            <div class="product-img">🎙️</div>
+                            <div class="product-card-body">
+                                <span class="badge bg-primary-subtle text-primary mb-2">Audio</span>
+                                <h5 class="fw-bold mb-1 fs-6">Studio Condenser Mic</h5>
+                                <p class="small text-muted mb-2 flex-grow-1">Cardioid USB-C podcast and streaming mic with gain dial.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-5 text-dark">$129</span>
+                                    <a href="/product-details.html?id=prod_8" class="btn btn-sm btn-outline-primary" id="btn-view-8" style="font-size:.8rem;border-radius:8px;">View Details</a>
+                                </div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button class="btn btn-success btn-add-cart" id="btn-cart-8" data-product-id="prod_8">🛒 Add to Cart</button>
+                                <a href="/checkout.html?id=prod_8" class="btn btn-primary btn-buy-now" id="btn-buy-8">⚡ Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 9 -->
+                    <div class="col-md-4 product-item" data-category="Wearables" data-price="199" data-name="Smart Health Fitness Ring">
+                        <div class="product-card" data-product-id="prod_9" data-product-name="Smart Health Fitness Ring" data-category="Wearables" data-price="199">
+                            <div class="product-img">💍</div>
+                            <div class="product-card-body">
+                                <span class="badge bg-warning-subtle text-warning mb-2">Wearables</span>
+                                <h5 class="fw-bold mb-1 fs-6">Smart Fitness Ring</h5>
+                                <p class="small text-muted mb-2 flex-grow-1">Ultra-light titanium sleep, HRV, and temperature tracker.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-5 text-dark">$199</span>
+                                    <a href="/product-details.html?id=prod_9" class="btn btn-sm btn-outline-primary" id="btn-view-9" style="font-size:.8rem;border-radius:8px;">View Details</a>
+                                </div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button class="btn btn-success btn-add-cart" id="btn-cart-9" data-product-id="prod_9">🛒 Add to Cart</button>
+                                <a href="/checkout.html?id=prod_9" class="btn btn-primary btn-buy-now" id="btn-buy-9">⚡ Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 10 -->
+                    <div class="col-md-4 product-item" data-category="Accessories" data-price="179" data-name="Thunderbolt 4 Multi-Dock">
+                        <div class="product-card" data-product-id="prod_10" data-product-name="Thunderbolt 4 Multi-Dock" data-category="Accessories" data-price="179">
+                            <div class="product-img">🔌</div>
+                            <div class="product-card-body">
+                                <span class="badge bg-secondary-subtle text-secondary mb-2">Accessories</span>
+                                <h5 class="fw-bold mb-1 fs-6">Thunderbolt 4 Dock</h5>
+                                <p class="small text-muted mb-2 flex-grow-1">14-in-1 workstation hub with 100W PD and dual 4K display.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-5 text-dark">$179</span>
+                                    <a href="/product-details.html?id=prod_10" class="btn btn-sm btn-outline-primary" id="btn-view-10" style="font-size:.8rem;border-radius:8px;">View Details</a>
+                                </div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button class="btn btn-success btn-add-cart" id="btn-cart-10" data-product-id="prod_10">🛒 Add to Cart</button>
+                                <a href="/checkout.html?id=prod_10" class="btn btn-primary btn-buy-now" id="btn-buy-10">⚡ Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 11 -->
+                    <div class="col-md-4 product-item" data-category="Audio" data-price="119" data-name="True Wireless Sport Earbuds">
+                        <div class="product-card" data-product-id="prod_11" data-product-name="True Wireless Sport Earbuds" data-category="Audio" data-price="119">
+                            <div class="product-img">🎵</div>
+                            <div class="product-card-body">
+                                <span class="badge bg-primary-subtle text-primary mb-2">Audio</span>
+                                <h5 class="fw-bold mb-1 fs-6">Wireless Sport Earbuds</h5>
+                                <p class="small text-muted mb-2 flex-grow-1">IPX7 waterproof, secure ear-hook fit, and punchy bass.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-5 text-dark">$119</span>
+                                    <a href="/product-details.html?id=prod_11" class="btn btn-sm btn-outline-primary" id="btn-view-11" style="font-size:.8rem;border-radius:8px;">View Details</a>
+                                </div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button class="btn btn-success btn-add-cart" id="btn-cart-11" data-product-id="prod_11">🛒 Add to Cart</button>
+                                <a href="/checkout.html?id=prod_11" class="btn btn-primary btn-buy-now" id="btn-buy-11">⚡ Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 12 -->
+                    <div class="col-md-4 product-item" data-category="Electronics" data-price="159" data-name="Rugged Portable SSD 2TB">
+                        <div class="product-card" data-product-id="prod_12" data-product-name="Rugged Portable SSD 2TB" data-category="Electronics" data-price="159">
+                            <div class="product-img">💾</div>
+                            <div class="product-card-body">
+                                <span class="badge bg-success-subtle text-success mb-2">Electronics</span>
+                                <h5 class="fw-bold mb-1 fs-6">Rugged Portable SSD 2TB</h5>
+                                <p class="small text-muted mb-2 flex-grow-1">1050MB/s NVMe read speeds, drop &amp; splash resistant.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-5 text-dark">$159</span>
+                                    <a href="/product-details.html?id=prod_12" class="btn btn-sm btn-outline-primary" id="btn-view-12" style="font-size:.8rem;border-radius:8px;">View Details</a>
+                                </div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button class="btn btn-success btn-add-cart" id="btn-cart-12" data-product-id="prod_12">🛒 Add to Cart</button>
+                                <a href="/checkout.html?id=prod_12" class="btn btn-primary btn-buy-now" id="btn-buy-12">⚡ Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 13 -->
+                    <div class="col-md-4 product-item" data-category="Electronics" data-price="329" data-name="4K Action Camera Pro">
+                        <div class="product-card" data-product-id="prod_13" data-product-name="4K Action Camera Pro" data-category="Electronics" data-price="329">
+                            <div class="product-img">📷</div>
+                            <div class="product-card-body">
+                                <span class="badge bg-success-subtle text-success mb-2">Electronics</span>
+                                <h5 class="fw-bold mb-1 fs-6">4K Action Camera Pro</h5>
+                                <p class="small text-muted mb-2 flex-grow-1">4K 60fps, waterproof 30m, 3-axis stabilization.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-5 text-dark">$329</span>
+                                    <a href="/product-details.html?id=prod_13" class="btn btn-sm btn-outline-primary" id="btn-view-13" style="font-size:.8rem;border-radius:8px;">View Details</a>
+                                </div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button class="btn btn-success btn-add-cart" id="btn-cart-13" data-product-id="prod_13">🛒 Add to Cart</button>
+                                <a href="/checkout.html?id=prod_13" class="btn btn-primary btn-buy-now" id="btn-buy-13">⚡ Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 14 -->
+                    <div class="col-md-4 product-item" data-category="Wearables" data-price="249" data-name="Smart AR Glasses">
+                        <div class="product-card" data-product-id="prod_14" data-product-name="Smart AR Glasses" data-category="Wearables" data-price="249">
+                            <div class="product-img">🥽</div>
+                            <div class="product-card-body">
+                                <span class="badge bg-warning-subtle text-warning mb-2">Wearables</span>
+                                <h5 class="fw-bold mb-1 fs-6">Smart AR Glasses</h5>
+                                <p class="small text-muted mb-2 flex-grow-1">Lightweight AR overlay with voice commands &amp; 8h battery.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-5 text-dark">$249</span>
+                                    <a href="/product-details.html?id=prod_14" class="btn btn-sm btn-outline-primary" id="btn-view-14" style="font-size:.8rem;border-radius:8px;">View Details</a>
+                                </div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button class="btn btn-success btn-add-cart" id="btn-cart-14" data-product-id="prod_14">🛒 Add to Cart</button>
+                                <a href="/checkout.html?id=prod_14" class="btn btn-primary btn-buy-now" id="btn-buy-14">⚡ Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 15 -->
+                    <div class="col-md-4 product-item" data-category="Accessories" data-price="49" data-name="Wireless Charging Pad Pro">
+                        <div class="product-card" data-product-id="prod_15" data-product-name="Wireless Charging Pad Pro" data-category="Accessories" data-price="49">
+                            <div class="product-img">🔋</div>
+                            <div class="product-card-body">
+                                <span class="badge bg-info-subtle text-info mb-2">Accessories</span>
+                                <h5 class="fw-bold mb-1 fs-6">Wireless Charging Pad Pro</h5>
+                                <p class="small text-muted mb-2 flex-grow-1">15W Qi2 fast wireless charging with LED ring.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-5 text-dark">$49</span>
+                                    <a href="/product-details.html?id=prod_15" class="btn btn-sm btn-outline-primary" id="btn-view-15" style="font-size:.8rem;border-radius:8px;">View Details</a>
+                                </div>
+                            </div>
+                            <div class="product-card-footer">
+                                <button class="btn btn-success btn-add-cart" id="btn-cart-15" data-product-id="prod_15">🛒 Add to Cart</button>
+                                <a href="/checkout.html?id=prod_15" class="btn btn-primary btn-buy-now" id="btn-buy-15">⚡ Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /products-grid -->
+
+                <!-- No Results -->
+                <div class="no-results" id="no-results-msg">
+                    <div style="font-size:56px;" class="mb-3">🔍</div>
+                    <h5 class="fw-bold">No Products Found</h5>
+                    <p class="text-muted">Try adjusting your filters or search term.</p>
+                    <button class="btn btn-primary" id="btn-reset-filters">Reset Filters</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p class="mb-1 fw-bold" style="color:#f1f5f9;">Web User Behaviour Analysis Using Machine Learning</p>
+            <p class="small text-muted mb-1">ITS Engineering College, Greater Noida • Dr. APJ Abdul Kalam Technical University (AKTU)</p>
+            <p class="small mb-0" style="color:#64748b;">Abhineet Kr Sinha, Viswajeet Kr Singh, Sanjeet Kumar, Amrit Raj • Supervisor: Mr. Manik Chandra Panday</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/js/cart.js"></script>
+    <script>
+        // ===== Toast Notification =====
+        function showToast(msg, icon = '✅') {
+            const existing = document.querySelector('.wuba-toast');
+            if (existing) existing.remove();
+            const toast = document.createElement('div');
+            toast.className = 'wuba-toast';
+            toast.innerHTML = `<span>${icon}</span><span>${msg}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // ===== Add to Cart Handlers =====
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.btn-add-cart').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const pid = e.currentTarget.dataset.productId;
+                    CartService.addItem(pid, 1);
+                    showToast(`Added to cart! 🛒`, '✅');
+                });
+            });
+
+            // ===== Filter & Search Logic =====
+            const items = document.querySelectorAll('.product-item');
+            const searchInput = document.getElementById('product-search-input');
+            const sortSelect = document.getElementById('sort-select');
+            const resultsCountBadge = document.getElementById('results-count-badge');
+            const noResults = document.getElementById('no-results-msg');
+            let activeCategory = 'all';
+
+            function getItems() {
+                return Array.from(items);
+            }
+
+            function filterAndSort() {
+                const query = (searchInput.value || '').toLowerCase().trim();
+                const priceUnder100 = document.getElementById('price-under-100').checked;
+                const price100to500 = document.getElementById('price-100-500').checked;
+                const priceAbove500 = document.getElementById('price-above-500').checked;
+                const hasPriceFilter = priceUnder100 || price100to500 || priceAbove500;
+                const sort = sortSelect.value;
+
+                let allItems = getItems();
+                let visible = [];
+
+                allItems.forEach(el => {
+                    const cat = el.dataset.category;
+                    const name = el.dataset.name.toLowerCase();
+                    const price = parseFloat(el.dataset.price);
+                    const matchCat = activeCategory === 'all' || cat.toLowerCase() === activeCategory.toLowerCase();
+                    const matchSearch = !query || name.includes(query) || cat.toLowerCase().includes(query);
+                    let matchPrice = true;
+                    if (hasPriceFilter) {
+                        matchPrice = (priceUnder100 && price < 100) ||
+                                     (price100to500 && price >= 100 && price <= 500) ||
+                                     (priceAbove500 && price > 500);
+                    }
+                    if (matchCat && matchSearch && matchPrice) {
+                        el.style.display = '';
+                        visible.push(el);
+                    } else {
+                        el.style.display = 'none';
+                    }
+                });
+
+                // Sort visible items
+                const grid = document.getElementById('products-grid');
+                if (sort === 'price-asc') {
+                    visible.sort((a, b) => parseFloat(a.dataset.price) - parseFloat(b.dataset.price));
+                } else if (sort === 'price-desc') {
+                    visible.sort((a, b) => parseFloat(b.dataset.price) - parseFloat(a.dataset.price));
+                } else if (sort === 'name') {
+                    visible.sort((a, b) => a.dataset.name.localeCompare(b.dataset.name));
+                }
+                visible.forEach(el => grid.appendChild(el));
+
+                // Update count
+                const count = visible.length;
+                resultsCountBadge.textContent = count + ' Product' + (count !== 1 ? 's' : '');
+                noResults.classList.toggle('show', count === 0);
+            }
+
+            // Category buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeCategory = btn.dataset.category;
+                    filterAndSort();
+                });
+            });
+
+            searchInput.addEventListener('input', filterAndSort);
+            sortSelect.addEventListener('change', filterAndSort);
+            ['price-under-100','price-100-500','price-above-500'].forEach(id => {
+                document.getElementById(id).addEventListener('change', filterAndSort);
+            });
+
+            document.getElementById('btn-reset-filters').addEventListener('click', () => {
+                searchInput.value = '';
+                sortSelect.value = 'default';
+                activeCategory = 'all';
+                ['price-under-100','price-100-500','price-above-500'].forEach(id => {
+                    document.getElementById(id).checked = false;
+                });
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById('filter-all').classList.add('active');
+                filterAndSort();
+            });
+
+            filterAndSort();
+        });
+    </script>
+    <script src="/public/js/tracker.js"></script>
+</body>
+</html>

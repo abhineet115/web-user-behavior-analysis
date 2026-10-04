@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web User Behaviour Analysis — Live Tracked Platform</title>
+    <meta name="description" content="WUBA: A full-stack analytics platform capturing real-time visitor interactions, clickstreams, dwell times, and navigation flows using Pandas & NumPy. AKTU B.Tech Final Year Project.">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+
+    <!-- Real-time Tracking Badge -->
+    <div class="tracking-badge">
+        <div class="pulse-dot"></div>
+        <span>Behavior Tracker Active</span>
+        <a href="/sem7_dashboard.html" class="btn btn-sm btn-primary ms-2 py-0 px-2" style="font-size: 11px;">View Dashboard</a>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/" id="nav-brand">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                WUBA Analytics Demo
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active fw-semibold" href="/" id="nav-home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products.html" id="nav-products">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/blog.html" id="nav-blog">Research Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact.html" id="nav-contact">Contact</a></li>
+                </ul>
+                <div class="d-flex gap-2 align-items-center">
+                    <a href="/cart.html" class="btn btn-outline-dark position-relative" id="btn-nav-cart">
+                        🛒 Cart <span class="badge bg-danger rounded-pill cart-count-badge ms-1" style="display:none;">0</span>
+                    </a>
+                    <a href="/sem7_dashboard.html" class="btn btn-outline-primary" id="btn-nav-dashboard">📊 Analytics Dashboard</a>
+                    <a href="/products.html" class="btn btn-primary" id="btn-nav-explore">Explore Demo</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <span class="badge bg-light text-primary px-3 py-2 rounded-pill fw-semibold mb-3">AKTU B.Tech Final Year Project &bull; Semester VII</span>
+            <h1 class="hero-title mb-3">Web User Behaviour Analysis<br><span style="color: #38bdf8;">Using Machine Learning</span></h1>
+            <p class="hero-subtitle mx-auto mb-4">
+                An intelligent, full-stack analytics platform capturing real-time visitor interactions, clickstreams, page dwell durations, and navigation flows with Pandas &amp; NumPy preprocessing.
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/products.html" class="btn btn-light btn-lg px-4 fw-bold text-primary" id="hero-btn-products">Browse Products Catalog</a>
+                <a href="/sem7_dashboard.html" class="btn btn-outline-light btn-lg px-4" id="hero-btn-admin">Open Analytics Monitor</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Semester VII Deliverables Overview -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="icon-box icon-primary">🎯</div>
+                    <h4 class="section-heading">Client Tracking Engine</h4>
+                    <p class="text-muted">Captures visitor fingerprints, session lifecycles, click coordinates, scroll depths, and page dwell times seamlessly via <code>tracker.js</code>.</p>
+                    <a href="/sem7_dashboard.html" class="text-decoration-none fw-semibold" id="link-track-engine">View Live Events &rarr;</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="icon-box icon-success">⚡</div>
+                    <h4 class="section-heading">Flask Backend &amp; SQLite DB</h4>
+                    <p class="text-muted">High-performance REST API endpoints for real-time event ingestion, session heartbeats, and normalized relational schema storage.</p>
+                    <a href="/sem7_dashboard.html" class="text-decoration-none fw-semibold" id="link-backend-api">Inspect API Metrics &rarr;</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="icon-box icon-warning">📈</div>
+                    <h4 class="section-heading">Preprocessing Pipeline</h4>
+                    <p class="text-muted">Pandas and NumPy data engineering calculating bounce rates, navigation sequences, click intensity, and composite engagement scores.</p>
+                    <a href="/sem7_dashboard.html" class="text-decoration-none fw-semibold" id="link-prep-pipeline">Check Feature Engineering &rarr;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Engagement Demo Box -->
+        <div class="demo-box mb-5">
+            <div class="row align-items-center">
+                <div class="col-md-7">
+                    <h3 class="fw-bold mb-2 section-heading">Test Live Interaction Tracking</h3>
+                    <p class="text-muted mb-3">
+                        Click the buttons below to trigger client-side events. Every click sends element tag, ID, class, text, and (x, y) coordinates straight to the Flask backend database.
+                    </p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn btn-primary" id="demo-btn-like">👍 Like Project</button>
+                        <button class="btn btn-outline-success" id="demo-btn-download">📥 Download Synopsis</button>
+                        <button class="btn btn-outline-danger" id="demo-btn-favorite">❤️ Add to Favorites</button>
+                        <button class="btn btn-secondary" id="demo-btn-share">🔗 Share System</button>
+                    </div>
+                </div>
+                <div class="col-md-5 text-center mt-3 mt-md-0">
+                    <div class="p-3 bg-white rounded-3 border shadow-sm">
+                        <div class="fw-bold text-dark mb-1">Live Monitor Shortcut</div>
+                        <p class="small text-muted mb-2">See your interactions appear in real-time:</p>
+                        <a href="/sem7_dashboard.html" class="btn btn-sm btn-dark px-3" id="demo-btn-view-live">Go to Live Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Products Preview -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold m-0 section-heading">Featured Products for Tracking Demonstration</h3>
+            <a href="/products.html" class="btn btn-sm btn-outline-primary" id="btn-view-all-products">View All 15 Products &rarr;</a>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="product-card">
+                    <div class="product-img">🎧</div>
+                    <div class="product-card-body">
+                        <span class="badge bg-primary-subtle text-primary mb-2">Audio Tech</span>
+                        <h5 class="fw-bold mb-1 fs-6">ANC Pro Headphones</h5>
+                        <p class="small text-muted mb-2">Active noise-canceling headphones with 40-hour battery life.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <span class="fw-bold fs-5 text-dark">$199</span>
+                            <a href="/product-details.html?id=prod_1" class="btn btn-sm btn-outline-primary" id="btn-prod-1" style="font-size:.8rem;border-radius:8px;">Details</a>
+                        </div>
+                    </div>
+                    <div class="product-card-footer">
+                        <button class="btn btn-success btn-add-cart" id="btn-feat-cart-1" data-product-id="prod_1">🛒 Add to Cart</button>
+                        <a href="/checkout.html?id=prod_1" class="btn btn-primary btn-buy-now" id="btn-feat-buy-1">⚡ Buy Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product-card">
+                    <div class="product-img">⌚</div>
+                    <div class="product-card-body">
+                        <span class="badge bg-success-subtle text-success mb-2">Wearables</span>
+                        <h5 class="fw-bold mb-1 fs-6">Pulse Smartwatch X</h5>
+                        <p class="small text-muted mb-2">AMOLED health tracker with SpO2 and GPS navigation.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <span class="fw-bold fs-5 text-dark">$149</span>
+                            <a href="/product-details.html?id=prod_2" class="btn btn-sm btn-outline-primary" id="btn-prod-2" style="font-size:.8rem;border-radius:8px;">Details</a>
+                        </div>
+                    </div>
+                    <div class="product-card-footer">
+                        <button class="btn btn-success btn-add-cart" id="btn-feat-cart-2" data-product-id="prod_2">🛒 Add to Cart</button>
+                        <a href="/checkout.html?id=prod_2" class="btn btn-primary btn-buy-now" id="btn-feat-buy-2">⚡ Buy Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product-card">
+                    <div class="product-img">💻</div>
+                    <div class="product-card-body">
+                        <span class="badge bg-info-subtle text-info mb-2">Computing</span>
+                        <h5 class="fw-bold mb-1 fs-6">Developer Workstation</h5>
+                        <p class="small text-muted mb-2">High performance workstation optimized for ML &amp; web development.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <span class="fw-bold fs-5 text-dark">$1,499</span>
+                            <a href="/product-details.html?id=prod_5" class="btn btn-sm btn-outline-primary" id="btn-prod-5" style="font-size:.8rem;border-radius:8px;">Details</a>
+                        </div>
+                    </div>
+                    <div class="product-card-footer">
+                        <button class="btn btn-success btn-add-cart" id="btn-feat-cart-5" data-product-id="prod_5">🛒 Add to Cart</button>
+                        <a href="/checkout.html?id=prod_5" class="btn btn-primary btn-buy-now" id="btn-feat-buy-5">⚡ Buy Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product-card">
+                    <div class="product-img">🖥️</div>
+                    <div class="product-card-body">
+                        <span class="badge bg-success-subtle text-success mb-2">Displays</span>
+                        <h5 class="fw-bold mb-1 fs-6">UltraWide 4K Monitor</h5>
+                        <p class="small text-muted mb-2">34-inch 144Hz HDR curved IPS display for multitasking.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <span class="fw-bold fs-5 text-dark">$649</span>
+                            <a href="/product-details.html?id=prod_7" class="btn btn-sm btn-outline-primary" id="btn-prod-7" style="font-size:.8rem;border-radius:8px;">Details</a>
+                        </div>
+                    </div>
+                    <div class="product-card-footer">
+                        <button class="btn btn-success btn-add-cart" id="btn-feat-cart-7" data-product-id="prod_7">🛒 Add to Cart</button>
+                        <a href="/checkout.html?id=prod_7" class="btn btn-primary btn-buy-now" id="btn-feat-buy-7">⚡ Buy Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product-card">
+                    <div class="product-img">💍</div>
+                    <div class="product-card-body">
+                        <span class="badge bg-warning-subtle text-warning mb-2">Biometrics</span>
+                        <h5 class="fw-bold mb-1 fs-6">Smart Fitness Ring</h5>
+                        <p class="small text-muted mb-2">Lightweight titanium ring tracking sleep &amp; readiness scores.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <span class="fw-bold fs-5 text-dark">$199</span>
+                            <a href="/product-details.html?id=prod_9" class="btn btn-sm btn-outline-primary" id="btn-prod-9" style="font-size:.8rem;border-radius:8px;">Details</a>
+                        </div>
+                    </div>
+                    <div class="product-card-footer">
+                        <button class="btn btn-success btn-add-cart" id="btn-feat-cart-9" data-product-id="prod_9">🛒 Add to Cart</button>
+                        <a href="/checkout.html?id=prod_9" class="btn btn-primary btn-buy-now" id="btn-feat-buy-9">⚡ Buy Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product-card">
+                    <div class="product-img">💾</div>
+                    <div class="product-card-body">
+                        <span class="badge bg-secondary-subtle text-secondary mb-2">Storage</span>
+                        <h5 class="fw-bold mb-1 fs-6">Rugged Portable SSD 2TB</h5>
+                        <p class="small text-muted mb-2">1050MB/s NVMe portable drive with drop resistance.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <span class="fw-bold fs-5 text-dark">$159</span>
+                            <a href="/product-details.html?id=prod_12" class="btn btn-sm btn-outline-primary" id="btn-prod-12" style="font-size:.8rem;border-radius:8px;">Details</a>
+                        </div>
+                    </div>
+                    <div class="product-card-footer">
+                        <button class="btn btn-success btn-add-cart" id="btn-feat-cart-12" data-product-id="prod_12">🛒 Add to Cart</button>
+                        <a href="/checkout.html?id=prod_12" class="btn btn-primary btn-buy-now" id="btn-feat-buy-12">⚡ Buy Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p class="mb-1 fw-bold" style="color:#f1f5f9;">Web User Behaviour Analysis Using Machine Learning</p>
+            <p class="small text-muted mb-1">ITS Engineering College, Greater Noida &bull; Affiliated to Dr. APJ Abdul Kalam Technical University (AKTU)</p>
+            <p class="small mb-0" style="color:#64748b;">Presented by Abhineet Kr Sinha, Viswajeet Kr Singh, Sanjeet Kumar, Amrit Raj &bull; Supervisor: Mr. Manik Chandra Panday</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/js/cart.js"></script>
+    <script>
+        function showToast(msg) {
+            const existing = document.querySelector('.wuba-toast');
+            if (existing) existing.remove();
+            const t = document.createElement('div');
+            t.className = 'wuba-toast';
+            t.innerHTML = '<span>&#9989;</span><span>' + msg + '</span>';
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.btn-add-cart').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    CartService.addItem(e.currentTarget.dataset.productId, 1);
+                    showToast('Added to cart! 🛒');
+                });
+            });
+        });
+    </script>
+    <!-- WUBA Client-Side Behavior Tracker -->
+    <script src="/public/js/tracker.js"></script>
+</body>
+</html>
